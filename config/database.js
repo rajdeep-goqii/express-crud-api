@@ -39,10 +39,8 @@ pool.getConnection((err, connection) => {
       logger.error('Database does not exist');
     }
     
-    // Don't exit immediately in development for better debugging
-    if (process.env.NODE_ENV === 'production') {
-      process.exit(1);
-    }
+    // Log error but don't exit - let the app start so health check works
+    logger.warn('App starting without database connection. Check environment variables.');
   } else {
     logger.info('Database connected successfully');
     logger.info(`Connected to: ${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
