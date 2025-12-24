@@ -1,0 +1,38 @@
+# Railway ignore file - excludes these from deployment
+
+# Development files
+.env
+.env.local
+.env.development
+
+# Tests
+tests/
+*.test.js
+jest.config.js
+coverage/
+
+# Documentation (optional - remove if you want docs deployed)
+*.md
+!README.md
+
+# Logs
+logs/
+*.log
+
+# Uploads (will use persistent volume)
+uploads/
+
+# Development dependencies
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
