@@ -43,19 +43,6 @@ router.get('/', authenticateToken, async (req, res, next) => {
       query += ' AND p.priority = ?';
       params.push(priority);
     }
-
-    if (search) {
-      query += ' AND (p.name LIKE ? OR p.description LIKE ?)';
-      params.push(`%${search}%`, `%${search}%`);
-    }
-
-    query += ' ORDER BY p.created_at DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
-
-    const [projects] = await db.execute(query, params);
-
-    // Get total count with same filters
-    let countQuery = 'SELECT COUNT(*) as total FROM projects p WHERE 1=1';
     const countParams = [];
 
     if (req.user.role === 'user') {

@@ -50,34 +50,6 @@ router.get('/', authenticateToken, async (req, res, next) => {
     if (project_id) {
       query += ' AND t.project_id = ?';
       params.push(project_id);
-    }
-
-    if (assigned_to) {
-      query += ' AND t.assigned_to = ?';
-      params.push(assigned_to);
-    }
-
-    if (search) {
-      query += ' AND (t.title LIKE ? OR t.description LIKE ?)';
-      params.push(`%${search}%`, `%${search}%`);
-    }
-
-    query += ' ORDER BY t.priority DESC, t.created_at DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
-
-    const [tasks] = await db.execute(query, params);
-
-    // Get total count with same filters
-    let countQuery = `
-      SELECT COUNT(*) as total 
-      FROM tasks t
-      LEFT JOIN projects p ON t.project_id = p.id
-      WHERE 1=1
-    `;
-    const countParams = [];
-
-    if (req.user.role === 'user') {
-      countQuery += ' AND (t.assigned_to = ? OR t.created_by = ? OR p.created_by = ?)';
       countParams.push(req.user.id, req.user.id, req.user.id);
     }
 
