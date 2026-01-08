@@ -52,6 +52,10 @@ router.get('/', authenticateToken, async (req, res, next) => {
     query += ' ORDER BY p.created_at DESC LIMIT ? OFFSET ?';
     params.push(limit, offset);
 
+    console.log('Query:', query);
+    console.log('Params:', params);
+    console.log('Params length:', params.length);
+
     const [projects] = await db.execute(query, params);
 
     // Count total for pagination
